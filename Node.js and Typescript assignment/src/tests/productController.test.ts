@@ -1,26 +1,6 @@
-// Let's use Jest for writing unit tests. First, install Jest and ts-jest:
-
-// ```bash
-// npm install --save-dev jest ts-jest @types/jest
-// ```
-
-// Next, add a script to your `package.json` for running tests:
-
-// ```json
-// "scripts": {
-//   "test": "jest"
-// }
-// ```
-
-// Now, create a `__tests__` folder in your project's root directory and add test files 
-// for the endpoints. Here are examples for testing the `GET /api/products` 
-// and `POST /api/products` endpoints:
-
-// **`__tests__/productController.test.ts`**
-
 import request from 'supertest';
 import express, { Application } from 'express';
-import { ProductController } from '../src/controllers/productController';
+import { ProductController } from '../controllers/productController';
 
 const app: Application = express();
 app.use(express.json());
@@ -48,19 +28,3 @@ describe('POST /api/products', () => {
     expect(response.status).toBe(400); // Assuming you return a 400 Bad Request for invalid data
   });
 });
-
-
-// In this example, I've used the `supertest` library to simulate HTTP requests. Make sure to install it:
-
-// ```bash
-// npm install --save-dev supertest
-// ```
-
-// You can run the tests with:
-
-// ```bash
-// npm test
-// ```
-
-// These tests cover success cases for the `GET /api/products` and `POST /api/products` endpoints,
-// as well as an error case for invalid product data during a POST request.
