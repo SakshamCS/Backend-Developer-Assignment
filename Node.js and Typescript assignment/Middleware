@@ -1,0 +1,47 @@
+// This is the middleware function that logs the timestamp, HTTP method,
+// and requested URL for every incoming request to the API.
+
+// **`src/middleware/loggerMiddleware.ts`** - Logger middleware:
+
+import { Request, Response, NextFunction } from 'express';
+
+function loggerMiddleware(req: Request, res: Response, next: NextFunction) {
+  const timestamp = new Date().toISOString();
+  const method = req.method;
+  const url = req.originalUrl;
+
+  console.log(`[${timestamp}] ${method} ${url}`);
+
+  // Pass the request to the next middleware or route handler
+  next();
+}
+
+export { loggerMiddleware };
+// Now, let's integrate this middleware into your existing application.
+// Update the `src/app.ts` file:
+
+// **`src/app.ts`** - Updated to include the logger middleware:
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import { ProductController } from './controllers/productController';
+import { loggerMiddleware } from './middleware/loggerMiddleware';
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+// Logger middleware
+app.use(loggerMiddleware);
+
+// Products controller
+app.use('/api/products', ProductController);
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
+// Now, every incoming request to your API will be logged
+// with a timestamp, HTTP method, and requested URL.
